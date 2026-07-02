@@ -13,6 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
     private AIChatService aiChatService;
 
+    @GetMapping("/")
+    public String sayHi(){
+        return "Hi, please talk to the model on '/chat'";
+    }
 
     @PostMapping("/chat")
     public String chat(@RequestBody String message) {
