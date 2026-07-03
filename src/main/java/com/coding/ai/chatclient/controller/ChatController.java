@@ -3,6 +3,7 @@ package com.coding.ai.chatclient.controller;
 import com.coding.ai.chatclient.service.AIChatService;
 import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.document.Document;
 import org.springframework.web.bind.annotation.*;
 

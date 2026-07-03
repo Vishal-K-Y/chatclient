@@ -3,6 +3,8 @@ package com.coding.ai.chatclient.service;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SearchRequest;
@@ -51,18 +53,27 @@ public class AIChatService {
         return vector;
     }
 
-    public String chatWithAI(String userInput){
+    public String chatWithAI(String userInput) {
         long startTime = System.currentTimeMillis();
         log.info("User input: {}", userInput);
 
-        String aiResponse = chatClient.prompt()
+        // Get the full ChatResponse object
+        var chatResponse = chatClient.prompt()
                 .user(userInput)
+                .advisors(new SimpleLoggerAdvisor())
                 .call()
-                .content();
+                .chatResponse();
 
         long duration = System.currentTimeMillis() - startTime;
-        log.info("AI responded in {}ms: {}", duration, aiResponse);
 
-        return aiResponse;
+        // Log the full object (includes token usage, model info, etc.)
+        log.info("AI responded in {}ms: {}", duration, chatResponse);
+
+        // Use .getText() instead of .getContent()
+        if (chatResponse != null && chatResponse.getResult() != null) {
+            return chatResponse.getResult().getOutput().getText();
+        }
+
+        return "No response";
     }
 }
