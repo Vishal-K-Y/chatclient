@@ -3,10 +3,10 @@ package com.coding.ai.chatclient.controller;
 import com.coding.ai.chatclient.service.AIChatService;
 import lombok.AllArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ai.document.Document;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -15,11 +15,16 @@ public class ChatController {
 
     @GetMapping("/")
     public String sayHi(){
-        return "Hi, please talk to the model on '/chat'";
+        return "Hi, please talk to the model on '/chat' or search for your doubts on '/searchQuery'.";
     }
 
     @PostMapping("/chat")
     public String chat(@RequestBody String message) {
         return aiChatService.chatWithAI(message);
+    }
+
+    @GetMapping("/searchQuery")
+    public List<Document> findIfSimilarityExists(@RequestParam String query){
+        return aiChatService.similaritySearch(query);
     }
 }
