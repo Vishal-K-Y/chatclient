@@ -58,6 +58,18 @@ This starts:
 
 Wait until both containers are healthy before continuing.
 
+#### 1.1 Create the Qdrant collection (required before ingestion)
+
+**Using the Dashboard (Visual)**
+
+1.a Go to [http://localhost:6333/dashboard](http://localhost:6333/dashboard) in your browser.  
+1.b Click on the **Collections** tab on the left.  
+1.c Click the **Create** button.  
+1.d **Collection Name:** `my_multimodal_embeddings`  
+1.e **Vector Size:** `384`  
+1.f **Distance:** `Cosine`  
+1.g Click **Create**.
+
 ### 2. Start the Spring Boot application
 
 ```bash
